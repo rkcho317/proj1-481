@@ -90,9 +90,29 @@ def depthFirstSearch(problem):
     " using Directions[] "
 
     " if opening is"
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    Pacstack = util.Stack()
+    #tracks explored nodes
+    Explored = []
+    #pushes initial state
+    Pacstack.push((problem.getStartState(), []))
+
+    while not Pacstack.isEmpty():
+        node = Pacstack.pop()
+        state = node[0]
+        actions = node[1]
+
+        if problem.isGoalState(state):
+            return actions
+        if state not in Explored:
+            Explored.append(state)
+            next = problem.getSuccessors(state)
+
+            for next_n in next:
+                next_state = next_n[0]
+                next_action = next_n[1]
+                if next_state not in Explored:
+                    next_action = actions + [next_action]
+                    Pacstack.push((next_state, next_action))
 
 
     
